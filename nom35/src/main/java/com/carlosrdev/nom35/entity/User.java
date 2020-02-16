@@ -1,10 +1,13 @@
 package com.carlosrdev.nom35.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -23,6 +26,10 @@ public class User {
 
 	@Column(name = "status")
 	private Boolean status;
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "rol_id")
+	private Rol rol;
 
 	// constructors
 
@@ -61,13 +68,21 @@ public class User {
 		this.status = status;
 	}
 
+	public Rol getRol() {
+		return rol;
+	}
+
+	public void setRol(Rol rol) {
+		this.rol = rol;
+	}
+
 	// useful methods
 
 	// toString() method
-
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", status=" + status + "]";
+		return "User [id=" + id + ", name=" + name + ", status=" + status + ", rol=" + rol + "]";
 	}
+
 
 }
