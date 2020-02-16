@@ -14,10 +14,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "rol")
-public class Rol {
-
-	// fields
+@Table(name = "module")
+public class Module {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,29 +25,21 @@ public class Rol {
 	@Column(name = "name")
 	private String name;
 
-	@Column(name = "status")
-	private Boolean status;
-
 	@ManyToMany
 	@JoinTable(
 			name = "rol_module", 
-			joinColumns = @JoinColumn(name = "rol_id"), 
-			inverseJoinColumns = @JoinColumn(name = "module_id")
+			joinColumns = @JoinColumn(name = "module_id"), 
+			inverseJoinColumns = @JoinColumn(name = "rol_id")
 			)
-	private List<Module> modules;
+	private List<Rol> roles;
 
-	// constructors
-
-	public Rol() {
+	public Module() {
 
 	}
 
-	public Rol(String name, Boolean status) {
+	public Module(String name) {
 		this.name = name;
-		this.status = status;
 	}
-
-	// getters & setters
 
 	public int getId() {
 		return id;
@@ -67,38 +57,27 @@ public class Rol {
 		this.name = name;
 	}
 
-	public Boolean getStatus() {
-		return status;
+	public List<Rol> getRoles() {
+		return roles;
 	}
 
-	public void setStatus(Boolean status) {
-		this.status = status;
+	public void setRoles(List<Rol> roles) {
+		this.roles = roles;
 	}
 
-	public List<Module> getModules() {
-		return modules;
-	}
+	public void addRol(Rol tempRol) {
 
-	public void setModules(List<Module> modules) {
-		this.modules = modules;
-	}
-
-	// methods
-
-	public void addModule(Module tempModule) {
-
-		if (modules == null) {
-			modules = new ArrayList<>();
+		if (roles == null) {
+			roles = new ArrayList<>();
 		}
 
-		modules.add(tempModule);
+		roles.add(tempRol);
 
 	}
 
-	// toString() method
 	@Override
 	public String toString() {
-		return "Rol [id=" + id + ", name=" + name + ", status=" + status + "]";
+		return "Module [id=" + id + ", name=" + name + ", roles=" + roles + "]";
 	}
 
 }
