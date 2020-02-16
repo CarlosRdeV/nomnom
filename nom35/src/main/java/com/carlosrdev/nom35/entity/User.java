@@ -1,5 +1,8 @@
 package com.carlosrdev.nom35.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -7,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -27,9 +31,16 @@ public class User {
 	@Column(name = "status")
 	private Boolean status;
 
+	// ONE TO ONE RELATIONSHIP
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "rol_id")
 	private Rol rol;
+
+	// MANY TO ONE RELATIONSHIP
+	@OneToMany(mappedBy = "user",
+				cascade = {CascadeType.PERSIST, CascadeType.MERGE, 
+						   CascadeType.DETACH,CascadeType.REFRESH})
+	private List<Course> courses;
 
 	// constructors
 
@@ -76,13 +87,30 @@ public class User {
 		this.rol = rol;
 	}
 
+	public List<Course> getCourses() {
+		return courses;
+	}
+
+	public void setCourses(List<Course> courses) {
+		this.courses = courses;
+	}
+
 	// useful methods
+	public void addCourse(Course tempCourse) {
+		
+		if(courses == null) {
+			courses = new ArrayList<>();
+		}
+		
+		courses.add(tempCourse);
+		
+		tempCourse.setUser(this);
+	}
 
 	// toString() method
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", name=" + name + ", status=" + status + ", rol=" + rol + "]";
 	}
-
 
 }
